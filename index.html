@@ -22,30 +22,59 @@ html,body{
 </style>
 </head>
 <body>
-<div id="wrap">
-    <button id="mp3">正在加载音频</button>
+<div>
+    音频：<button id="mp3">正在加载音频</button><br/>
+</div>
+<div>
+    视频：<button id="mp4">正在加载音频</button><br/>
 </div>
 	<script type="text/javascript" src="src/media.js"></script>
     <script>
         function $(selector){
             return document.querySelector(selector);
         }
-        var btn=$('#mp3'),
-            mp3=new Media({src:'audio/mp3.mp3'},'audio');
-        mp3.on('ready',function(){
-            btn.innerHTML='准备就绪，点击开始播放（时长：'+this.length+'）';
-        }).on('play',function(){
-            btn.innerHTML='正在播放';
-        }).on('pause',function(){
-            btn.innerHTML='已暂停';
-        });
-        btn.addEventListener('click',function(){
-            if(mp3.playing){
-                mp3.pause();
-            }else{
-                mp3.play();
-            }
-        },false);
+        if(Media.audio.mp3){
+            var btn=$('#mp3'),
+                mp3=new Media({src:'audio/mp3.mp3'},'audio');
+            mp3.on('ready',function(){
+                btn.innerHTML='准备就绪，点击开始播放（时长：'+this.length+'）';
+            }).on('play',function(){
+                btn.innerHTML='正在播放';
+            }).on('pause',function(){
+                btn.innerHTML='已暂停';
+            });
+            btn.addEventListener('click',function(){
+                if(mp3.playing){
+                    mp3.pause();
+                }else{
+                    mp3.play();
+                }
+            },false);
+        }else{
+            $('#mp3').innerHTML='不支持该媒体文件';
+        }
+
+        if(Media.video.mp4){
+            var btn1=$('#mp4'),
+                mp4=new Media({src:'video/mp4.mp4',width:300,height:500},'video');
+            btn1.parentNode.appendChild(mp4.media);
+            mp4.on('ready',function(){
+                btn1.innerHTML='准备就绪，点击开始播放（时长：'+this.length+'）';
+            }).on('play',function(){
+                btn1.innerHTML='正在播放';
+            }).on('pause',function(){
+                btn1.innerHTML='已暂停';
+            });
+            btn1.addEventListener('click',function(){
+                if(mp4.playing){
+                    mp4.pause();
+                }else{
+                    mp4.play();
+                }
+            },false);
+        }else{
+            $('#mp4').innerHTML='不支持该媒体文件';
+        }
     </script>
 </body>
 </html>

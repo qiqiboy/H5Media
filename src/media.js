@@ -15,7 +15,7 @@
         }
     }
 
-    struct.fn=struct.prototype={
+    struct.prototype={
         constructor:struct,
         bindEvents:function(){
             var self=this,
@@ -155,7 +155,7 @@
                 sp[fm]=tv.canPlayType(tester[fm]);
              }
         }
-        struct.fn.video=sp;
+        struct.video=sp;
         tv=null;
     }();
 
@@ -172,7 +172,7 @@
                 sp[fm]=tv.canPlayType(tester[fm]);
              }
         }
-        struct.fn.audio=sp;
+        struct.audio=sp;
         tv=null;
     }();
 
