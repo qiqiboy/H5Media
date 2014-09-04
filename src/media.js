@@ -77,7 +77,7 @@
             }
         },
         parse:function(num){
-            return parseFloat(num).toFixed(2)||0;
+            return parseFloat(num.toFixed(2))||0;
         },
         on:function(ev,callback){
             if(typeof ev == 'object'){
