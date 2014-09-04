@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=640,user-scalable=no"/>
+<title>Canvas Mask</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<style type="text/css">
+body,div,canvas,img{
+    margin:0;
+    padding:0;
+    border:0;
+}
+html,body{
+    height:100%;
+}
+#wrap{
+    min-height:100%;
+    position:relative;
+}
+</style>
+</head>
+<body>
+<div id="wrap">
+    <button id="mp3">正在加载音频</button>
+</div>
+	<script type="text/javascript" src="src/media.js"></script>
+    <script>
+        function $(selector){
+            return document.querySelector(selector);
+        }
+        var btn=$('#mp3'),
+            mp3=new Media({src:'audio/mp3.mp3'},'audio');
+        mp3.on('ready',function(){
+            btn.innerHTML='准备就绪，点击开始播放（时长：'+this.length+'）';
+        }).on('play',function(){
+            btn.innerHTML='正在播放';
+        }).on('pause',function(){
+            btn.innerHTML='已暂停';
+        });
+        btn.addEventListener('click',function(){
+            if(mp3.playing){
+                mp3.pause();
+            }else{
+                mp3.play();
+            }
+        },false);
+    </script>
+</body>
+</html>
