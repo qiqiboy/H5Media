@@ -33,7 +33,7 @@ html,body{
         function $(selector){
             return document.getElementById(selector);
         }
-        if(Media.audio.mp3){
+        if(Media.audio){
             var btn=$('mp3'),
                 mp3=new Media({src:'audio/mp3.mp3',type:'audio'});
             mp3.on('ready',function(){
@@ -56,7 +56,7 @@ html,body{
             $('mp3').innerHTML='不支持该媒体文件';
         }
 
-        if(Media.video.mp4){
+        if(Media.video){
             var btn1=$('mp4'),
                 mp4=new Media({src:'video/mp4.mp4',width:300,height:500});
             btn1.parentNode.appendChild(mp4.media);
