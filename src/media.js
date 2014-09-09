@@ -148,6 +148,10 @@
         volDown:function(){
             return this.setVol(this.volume-.1);
         },
+        load:function(url){
+            this.media.src=url;
+            return this;
+        },
         canPlayType:function(mime){
             return this.media.canPlayType(mime);
         }
