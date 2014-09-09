@@ -22,8 +22,8 @@
             this.events={};
             this.on({
                 'playing pause ended':function(){
-                    this.playing=!media.paused;
                     this.ended=media.ended;
+                    this.playing=!this.ended && !media.paused;
                 },
                 loadedmetadata:function(){
                     this.playing=!media.paused;
