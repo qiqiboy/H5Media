@@ -35,13 +35,15 @@ html,body{
         }
         if(Media.audio.mp3){
             var btn=$('mp3'),
-                mp3=new Media({src:'audio/mp3.mp3'},'audio');
+                mp3=new Media({src:'audio/mp3.mp3',type:'audio'});
             mp3.on('ready',function(){
                 btn.innerHTML='准备就绪，点击开始播放（时长：'+this.length+'）';
             }).on('play',function(){
                 btn.innerHTML='正在播放';
             }).on('pause',function(){
                 btn.innerHTML='已暂停';
+            }).on('end',function(){
+                btn.innerHTML='播放完毕';
             });
             btn.addEventListener('click',function(){
                 if(mp3.playing){
@@ -56,7 +58,7 @@ html,body{
 
         if(Media.video.mp4){
             var btn1=$('mp4'),
-                mp4=new Media({src:'video/mp4.mp4',width:300,height:500},'video');
+                mp4=new Media({src:'video/mp4.mp4',width:300,height:500});
             btn1.parentNode.appendChild(mp4.media);
             mp4.on('ready',function(){
                 btn1.innerHTML='准备就绪，点击开始播放（时长：'+this.length+'）';
@@ -64,6 +66,8 @@ html,body{
                 btn1.innerHTML='正在播放';
             }).on('pause',function(){
                 btn1.innerHTML='已暂停';
+            }).on('end',function(){
+                btn1.innerHTML='播放完毕';
             });
             btn1.addEventListener('click',function(){
                 if(mp4.playing){
