@@ -189,11 +189,16 @@
 
     ROOT.Media=struct;
 
-})(window,function(config,type){
+})(window,function(config){
     if(!(this instanceof arguments.callee)){
-        return new arguments.callee(config,type);
+        return new arguments.callee(config);
     }
-    this.media=document.createElement(type||'video');
+    config=config||{};
+    if(1==config.nodeType){
+        this.media=config;
+    }else{
+        this.media=document.createElement(config.type||'video');
+    }
     this.bindEvents();
     this.updateConfig(config);
 });
