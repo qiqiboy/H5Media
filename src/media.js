@@ -55,7 +55,9 @@
         },
         handleEvent:function(ev){
             var type=ev.type.toLowerCase();
-            this.fire(type);
+            if(type!='play'){
+                this.fire(type);
+            }
 
             switch(type){
                 case 'playing':
