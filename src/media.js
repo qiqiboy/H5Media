@@ -166,7 +166,7 @@
             tester={
                 mp4:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
                 ogg:'video/ogg; codecs="theora, vorbis"',
-                webm:'video/webm; codecs="vp8, vorbis"'
+                webm:'video/webm; codecs="vp8, vp9, vorbis"'
             },fm,sp;
         if(typeof HTMLVideoElement!='undefined' && tv.canPlayType){
             sp={};
@@ -181,6 +181,7 @@
     !function(){
         var tv=document.createElement('audio'),
             tester={
+                wav:'audio/wav',
                 mp3:'audio/mpeg',
                 ogg:'audio/ogg; codecs="vorbis"',
                 aac:'audio/mp4; codecs="mp4a.40.5"',
