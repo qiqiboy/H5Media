@@ -147,6 +147,9 @@
         },
         volDown:function(){
             return this.setVol(this.volume-.1);
+        },
+        canPlayType:function(mime){
+            return this.media.canPlayType(mime);
         }
     }
 
