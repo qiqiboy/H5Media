@@ -21,8 +21,9 @@
             var media=this.media;
             this.events={};
             this.on({
-                'playing pause ended':function(){
+                'play pause ended':function(){
                     this.playing=!media.paused;
+                    this.ended=media.ended;
                 },
                 loadedmetadata:function(){
                     this.playing=!media.paused;
@@ -57,9 +58,6 @@
             this.fire(type);
 
             switch(type){
-                case 'playing':
-                    this.fire('play');
-                    break;
                 case 'ended':
                     this.fire('end');
                     break;
@@ -118,6 +116,9 @@
         stop:function(){
             this.pause();
             return this.reset();
+        },
+        toggle:function(){
+            return this.playing?this.pause():this.play();
         },
         reset:function(){
             return this.go(0);
