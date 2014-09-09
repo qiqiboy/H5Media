@@ -164,11 +164,12 @@
                 mp4:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
                 ogg:'video/ogg; codecs="theora, vorbis"',
                 webm:'video/webm; codecs="vp8, vorbis"'
-            },fm,sp={};
+            },fm,sp;
         if(typeof HTMLVideoElement!='undefined' && tv.canPlayType){
-             for(fm in tester){
+            sp={};
+            for(fm in tester){
                 sp[fm]=tv.canPlayType(tester[fm]);
-             }
+            }
         }
         struct.video=sp;
         tv=null;
@@ -181,11 +182,12 @@
                 ogg:'audio/ogg; codecs="vorbis"',
                 aac:'audio/mp4; codecs="mp4a.40.5"',
                 webm:'audio/webm; codecs="vorbis"'
-            },fm,sp={};
+            },fm,sp;
         if(typeof HTMLAudioElement!='undefined' && tv.canPlayType){
-             for(fm in tester){
+            sp={};
+            for(fm in tester){
                 sp[fm]=tv.canPlayType(tester[fm]);
-             }
+            }
         }
         struct.audio=sp;
         tv=null;
