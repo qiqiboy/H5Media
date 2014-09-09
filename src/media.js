@@ -181,8 +181,9 @@
     !function(){
         var tv=document.createElement('audio'),
             tester={
-                wav:'audio/wav',
+                wav:'audio/wav; codecs="1"',
                 mp3:'audio/mpeg',
+                m4a:'audio/x-m4a',
                 ogg:'audio/ogg; codecs="vorbis"',
                 aac:'audio/mp4; codecs="mp4a.40.5"',
                 webm:'audio/webm; codecs="vorbis"'
