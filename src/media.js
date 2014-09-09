@@ -21,7 +21,7 @@
             var media=this.media;
             this.events={};
             this.on({
-                'play pause ended':function(){
+                'playing pause ended':function(){
                     this.playing=!media.paused;
                     this.ended=media.ended;
                 },
@@ -58,6 +58,9 @@
             this.fire(type);
 
             switch(type){
+                case 'playing':
+                    this.fire('play');
+                    break;
                 case 'ended':
                     this.fire('end');
                     break;
