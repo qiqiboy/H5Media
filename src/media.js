@@ -18,8 +18,7 @@
     struct.prototype={
         constructor:struct,
         bindEvents:function(){
-            var self=this,
-                media=this.media;
+            var media=this.media;
             this.events={};
             this.on({
                 'playing pause ended':function(){
@@ -33,10 +32,10 @@
                     this.volume=this.parse(media.volume);
                 },
                 timeupdate:function(){
-                    this.currentTime=this.parse(this.currentTime);
+                    this.currentTime=this.parse(media.currentTime);
                 },
                 volumechange:function(){
-                    this.volume=this.parse(this.volume);
+                    this.volume=this.parse(media.volume);
                     this.muted=media.muted;
                 }
             });
