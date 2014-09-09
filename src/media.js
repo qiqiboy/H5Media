@@ -21,48 +21,25 @@
             var self=this,
                 media=this.media;
             this.events={};
-            media.addEventListener("error", function(){//出错
-                self.fire('error');
-            }, false);
-            media.addEventListener("playing", function(){//播放
-                self.playing=true;
-                self.fire('play');
-            }, false);
-            media.addEventListener("pause", function(){//暂停
-                self.playing=false;
-                self.fire('pause');
-            }, false);
-            media.addEventListener("ended", function(){//播放结束
-                self.playing=false;
-                self.fire('end');
-            }, false);
-            media.addEventListener("canplaythrough", function(){//可以继续播放，这里用canplaythrough取代canplay事件
-                self.fire('canplay');
-            }, false);
-            media.addEventListener("waiting", function(){//等待缓冲
-                self.fire('waiting');
-            }, false);
-            media.addEventListener("stalled", function(){//播放中断
-                self.fire('stalled');
-            }, false);
-            media.addEventListener("loadedmetadata", function(){//视频元数据获取完毕
-                self.playing=!this.paused;
-                self.muted=this.muted;
-                self.length=self.parse(this.duration);
-                self.currentTime=self.parse(this.currentTime);
-                self.volume=self.parse(this.volume);
-
-                self.fire('ready',self.length);//视频已经准备好
-            }, false);
-            media.addEventListener("timeupdate", function(){//进度更新
-                self.fire('update',self.currentTime=self.parse(this.currentTime));//播放进度更新
-            }, false);
-            media.addEventListener("volumechange", function(){//音量调节
-                self.fire('volumechange',self.volume=self.parse(this.volume));//视频已经准备好
-                if(self.muted=this.muted){
-                    self.fire('mute');//静音事件
+            this.on({
+                'playing pause ended':function(){
+                    this.playing=!media.paused;
+                },
+                loadedmetadata:function(){
+                    this.playing=!media.paused;
+                    this.muted=media.muted;
+                    this.length=this.parse(media.duration);
+                    this.currentTime=this.parse(media.currentTime);
+                    this.volume=this.parse(media.volume);
+                },
+                timeupdate:function(){
+                    this.currentTime=this.parse(this.currentTime);
+                },
+                volumechange:function(){
+                    this.volume=this.parse(this.volume);
+                    this.muted=media.muted;
                 }
-            }, false);
+            });
         },
         updateConfig:function(attrs){
             var attr,node=this.media;
@@ -76,6 +53,30 @@
                 }
             }
         },
+        handleEvent:function(ev){
+            var type=ev.type.toLowerCase();
+            this.fire(type);
+
+            switch(type){
+                case 'playing':
+                    this.fire('play');
+                    break;
+                case 'ended':
+                    this.fire('end');
+                    break;
+                case 'loadedmetadata':
+                    this.fire('ready');
+                    break;
+                case 'timeupdate':
+                    this.fire('update');
+                    break;
+                case 'volumechange':
+                    if(this.muted){
+                        this.fire('mute');
+                    }
+                    break;
+            }
+        },
         parse:function(num){
             return parseFloat(num.toFixed(2))||0;
         },
@@ -85,8 +86,15 @@
                     this.on(_e,ev[_e]);
                 }.bind(this));
             }
+            var evs=ev.split(/\s+/g);
+            if(evs.length>1){
+                return evs.forEach(function(_e){
+                    this.on(_e,callback);
+                }.bind(this));
+            }
             if(!this.events[ev]){
                 this.events[ev]=[];
+                this.media.addEventListener(ev,this,false);
             }
             this.events[ev].push(callback);
             return this;
