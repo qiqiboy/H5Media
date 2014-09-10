@@ -88,12 +88,12 @@
                 i=0,len=buffered.length,
                 ret=[];
             for(;i<len;i++){
-                ret.push([buffered.start(i),buffered.end(i)]);
+                ret.push([this.parse(buffered.start(i)),this.parse(buffered.end(i))]);
             }
             return ret;
         },
         parse:function(num){
-            return parseFloat(num.toFixed(2))||0;
+            return parseFloat(num.toFixed(3))||0;
         },
         on:function(ev,callback){
             if(typeof ev == 'object'){
