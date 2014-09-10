@@ -83,7 +83,7 @@
                     break;
             }
         },
-        getBuffer:function(buff){
+        getBuffer:function(){
             var buffered=this.media.buffered,
                 i=0,len=buffered.length,
                 ret=[];
