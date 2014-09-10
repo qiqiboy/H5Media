@@ -31,6 +31,7 @@
                     this.length=this.parse(media.duration);
                     this.currentTime=this.parse(media.currentTime);
                     this.volume=this.parse(media.volume);
+                    this.buffered=this.getBuffer();
                 },
                 timeupdate:function(){
                     this.currentTime=this.parse(media.currentTime);
@@ -38,6 +39,9 @@
                 volumechange:function(){
                     this.volume=this.parse(media.volume);
                     this.muted=media.muted;
+                },
+                progress:function(){
+                    this.buffered=this.getBuffer();
                 }
             });
         },
@@ -67,10 +71,10 @@
                     this.fire('end');
                     break;
                 case 'loadedmetadata':
-                    this.fire('ready');
+                    this.fire('ready',this.length);
                     break;
                 case 'timeupdate':
-                    this.fire('update');
+                    this.fire('process',this.currentTime);
                     break;
                 case 'volumechange':
                     if(this.muted){
@@ -78,6 +82,15 @@
                     }
                     break;
             }
+        },
+        getBuffer:function(buff){
+            var buffered=this.media.buffered,
+                i=0,len=buffered.length,
+                ret=[];
+            for(;i<len;i++){
+                ret.push([buffered.start(i),buffered.end(i)]);
+            }
+            return ret;
         },
         parse:function(num){
             return parseFloat(num.toFixed(2))||0;
