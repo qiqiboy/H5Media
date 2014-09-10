@@ -38,7 +38,7 @@
                 },
                 volumechange:function(){
                     this.volume=this.parse(media.volume);
-                    this.muted=media.muted;
+                    //this.muted=media.muted;
                 },
                 progress:function(){
                     this.buffered=this.getBuffer();
@@ -77,8 +77,10 @@
                     this.fire('process',this.currentTime);
                     break;
                 case 'volumechange':
-                    if(this.muted){
-                        this.fire('mute');
+                    var muted=this.media.muted;
+                    if(muted!==this.muted){
+                        this.fire(muted?'mute':'unmute');
+                        this.muted=muted;
                     }
                     break;
             }
@@ -150,8 +152,12 @@
             }catch(e){}
             return this;
         },
-        mute:function(type){
-            this.media.muted=typeof type=='undefined'?true:!!type;
+        mute:function(){
+            this.media.muted=true;
+            return this;
+        },
+        unmute:function(){
+            this.media.muted=false;
             return this;
         },
         setVol:function(v){
