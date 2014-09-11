@@ -97,23 +97,21 @@
         parse:function(num){
             return parseFloat(num.toFixed(3))||0;
         },
-        on:function(ev,callback){
-            if(typeof ev == 'object'){
-                return Object.keys(ev).forEach(function(_e){
-                    this.on(_e,ev[_e]);
+        on:function(evs,callback){
+            if(typeof evs == 'object'){
+                return Object.keys(evs).forEach(function(ev){
+                    this.on(ev,evs[ev]);
                 }.bind(this));
             }
-            var evs=ev.split(/\s+/g);
-            if(evs.length>1){
-                return evs.forEach(function(_e){
-                    this.on(_e,callback);
-                }.bind(this));
-            }
-            if(!this.events[ev]){
-                this.events[ev]=[];
-                this.media.addEventListener(ev,this,false);
-            }
-            this.events[ev].push(callback);
+
+            evs.split(/\s+/g).forEach(function(ev){
+                if(!this.events[ev]){
+                    this.events[ev]=[];
+                    this.media.addEventListener(ev,this,false);
+                }
+                this.events[ev].push(callback);
+            }.bind(this));
+
             return this;
         },
         fire:function(ev){
