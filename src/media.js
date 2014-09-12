@@ -44,6 +44,10 @@
                     this.buffered=this.getBuffer();
                 }
             });
+
+            if(!isNaN(this.media.duration)){
+                this.fire('loadedmetadata');
+            }
         },
         updateConfig:function(attrs){
             var attr,node=this.media;
