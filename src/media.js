@@ -185,7 +185,9 @@
             tester={
                 mp4:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
                 ogg:'video/ogg; codecs="theora, vorbis"',
-                webm:'video/webm; codecs="vp8, vp9, vorbis"'
+                webm:'video/webm; codecs="vp8, vp9, vorbis"',
+                flv:'video/x-flv',
+                m3u:'video/mpegurl'
             },fm,sp;
         if(typeof HTMLVideoElement!='undefined' && tv.canPlayType){
             sp={};
@@ -203,8 +205,11 @@
                 wav:'audio/wav; codecs="1"',
                 mp3:'audio/mpeg',
                 m4a:'audio/x-m4a',
-                ogg:'audio/ogg; codecs="vorbis"',
-                aac:'audio/mp4; codecs="mp4a.40.5"',
+                flac:'audio/x-flac',
+                flv:'audio/x-flv',
+                m3u:'audio/mpegurl',
+                ogg:'audio/ogg; codecs="vorbis, opus"',
+                aac:'audio/mp4; codecs="mp4a.40.2, mp4a.40.5"',
                 webm:'audio/webm; codecs="vorbis"'
             },fm,sp;
         if(typeof HTMLAudioElement!='undefined' && tv.canPlayType){
