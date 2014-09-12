@@ -235,7 +235,7 @@
         this.media=config;
     }else{
         this.media=document.createElement(config.type||'video');
+        this.updateConfig(config);
     }
     this.bindEvents();
-    this.updateConfig(config);
 });
