@@ -95,7 +95,7 @@
             return ret;
         },
         parse:function(num){
-            return parseFloat(num.toFixed(3))||0;
+            return parseInt(num*1000)/1000||0;
         },
         on:function(evs,callback){
             if(typeof evs == 'object'){
@@ -146,7 +146,7 @@
         },
         go:function(time){
             try{
-                this.media.currentTime=this.parse(Math.min(this.length,Math.max(time,0)));
+                this.media.currentTime=time;
             }catch(e){}
             return this;
         },
@@ -160,7 +160,7 @@
         },
         setVol:function(v){
             try{
-                this.media.volume=this.parse(Math.min(1,Math.max(v,0)));
+                this.media.volume=v;
             }catch(e){}
             return this;
         },
