@@ -99,19 +99,18 @@
         },
         on:function(evs,callback){
             if(typeof evs == 'object'){
-                return Object.keys(evs).forEach(function(ev){
+                Object.keys(evs).forEach(function(ev){
                     this.on(ev,evs[ev]);
                 }.bind(this));
+            }else{
+                evs.split(/\s+/g).forEach(function(ev){
+                    if(!this.events[ev]){
+                        this.events[ev]=[];
+                        this.media.addEventListener(ev,this,false);
+                    }
+                    this.events[ev].push(callback);
+                }.bind(this));
             }
-
-            evs.split(/\s+/g).forEach(function(ev){
-                if(!this.events[ev]){
-                    this.events[ev]=[];
-                    this.media.addEventListener(ev,this,false);
-                }
-                this.events[ev].push(callback);
-            }.bind(this));
-
             return this;
         },
         fire:function(ev){
