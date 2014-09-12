@@ -95,7 +95,7 @@
             return ret;
         },
         parse:function(num){
-            return parseInt(num*1000)/1000||0;
+            return num*1||0;
         },
         on:function(evs,callback){
             if(typeof evs == 'object'){
@@ -134,6 +134,9 @@
         },
         stop:function(){
             return this.pause().reset().fire('stop');
+        },
+        finish:function(){
+            return this.go(this.length);
         },
         toggle:function(){
             return this.playing?this.pause():this.play();
