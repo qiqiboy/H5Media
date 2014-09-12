@@ -116,6 +116,7 @@
         },
         fire:function(ev){
             var args=[].slice.call(arguments,1);
+            args.unshift(this.media);
             (this.events[ev]||[]).forEach(function(callback){
                 if(typeof callback == 'function'){
                     callback.apply(this,args);
@@ -132,8 +133,7 @@
             return this;
         },
         stop:function(){
-            this.pause();
-            return this.reset();
+            return this.pause().reset().fire('stop');
         },
         toggle:function(){
             return this.playing?this.pause():this.play();
