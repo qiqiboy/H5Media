@@ -26,6 +26,7 @@
                     this.playing=!this.ended && !media.paused;
                 },
                 loadedmetadata:function(){
+                    this.ready=true;
                     this.playing=!media.paused;
                     this.muted=media.muted;
                     this.length=this.parse(media.duration);
@@ -113,9 +114,15 @@
                         this.media.addEventListener(ev,this,false);
                     }
                     this.events[ev].push(callback);
+                    this.special(ev);
                 }.bind(this));
             }
             return this;
+        },
+        special:function(ev){
+            if(ev=='ready' && this.ready){
+                this.events[ev].slice(-1)[0].call(this,this.media,this.length);
+            }
         },
         fire:function(ev){
             var args=[].slice.call(arguments,1);
