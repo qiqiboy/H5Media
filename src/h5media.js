@@ -268,7 +268,7 @@
         tv=null;
     }();
 
-    ROOT.Media=struct;
+    ROOT.H5Media=struct;
 
 })(window,function(config){
     if(!(this instanceof arguments.callee)){

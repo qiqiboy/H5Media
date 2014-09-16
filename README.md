@@ -9,12 +9,12 @@ html5音频audio和视频video封装组件
 /* 
  * 实例化一个Media对象，有两种方式
  */
-var media=new Media({src:'',type:'video'}); //其一，指定媒体文件的地址、类型等
-var media=new Media(document.getElementById('video')); //其二，获取对页面上 video#video 的引用封装
+var media=new H5Media({src:'',type:'video'}); //其一，指定媒体文件的地址、类型等
+var media=new H5Media(document.getElementById('video')); //其二，获取对页面上 video#video 的引用封装
 
 /* 查询媒体文件格式支持情况 */
-Media.video //mp4 ogg webm flv
-Media.audio //mp3 wav m4a ogg aac webm
+H5Media.video //mp4 ogg webm flv
+H5Media.audio //mp3 wav m4a ogg aac webm
 
 /* 媒体准备就绪（可以获取到媒体长度等信息，及对应loadedmetadata事件） 
  * media.ready(callback);

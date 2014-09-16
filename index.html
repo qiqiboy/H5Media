@@ -28,14 +28,14 @@ html,body{
 <div>
     视频：<button id="mp4">正在加载视频</button><br/>
 </div>
-	<script type="text/javascript" src="src/media.js"></script>
+	<script type="text/javascript" src="src/h5media.js"></script>
     <script>
         function $(selector){
             return document.getElementById(selector);
         }
-        if(Media.audio){
+        if(H5Media.audio){
             var btn=$('mp3'),
-                mp3=new Media({src:'audio/mp3.mp3',type:'audio'});
+                mp3=new H5Media({src:'audio/mp3.mp3',type:'audio'});
             mp3.on('ready',function(){
                 btn.innerHTML='准备就绪，点击开始播放（时长：'+this.length+'）';
             }).on('play',function(){
@@ -52,9 +52,9 @@ html,body{
             $('mp3').innerHTML='不支持该媒体文件';
         }
 
-        if(Media.video){
+        if(H5Media.video){
             var btn1=$('mp4'),
-                mp4=new Media({src:'video/mp4.mp4',width:300,height:500});
+                mp4=new H5Media({src:'video/mp4.mp4',width:300,height:500});
             btn1.parentNode.appendChild(mp4.media);
             mp4.on('ready',function(){
                 btn1.innerHTML='准备就绪，点击开始播放（时长：'+this.length+'）';
