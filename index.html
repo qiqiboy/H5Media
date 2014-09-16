@@ -46,11 +46,7 @@ html,body{
                 btn.innerHTML='播放完毕';
             });
             btn.addEventListener('click',function(){
-                if(mp3.playing){
-                    mp3.pause();
-                }else{
-                    mp3.play();
-                }
+                mp3.toggle();
             },false);
         }else{
             $('mp3').innerHTML='不支持该媒体文件';
@@ -70,11 +66,7 @@ html,body{
                 btn1.innerHTML='播放完毕';
             });
             btn1.addEventListener('click',function(){
-                if(mp4.playing){
-                    mp4.pause();
-                }else{
-                    mp4.play();
-                }
+                mp4.toggle();
             },false);
         }else{
             $('mp4').innerHTML='不支持该媒体文件';

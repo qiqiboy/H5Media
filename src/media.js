@@ -21,32 +21,14 @@
             var media=this.media;
             this.events={};
             this.on({
-                'playing pause ended':function(){
-                    this.ended=media.ended;
-                    this.playing=!this.ended && !media.paused;
-                },
+                'playing ended volumechange':null,
                 loadedmetadata:function(){
-                    this.ready=true;
-                    this.playing=!media.paused;
-                    this.muted=media.muted;
-                    this.length=this.parse(media.duration);
-                    this.currentTime=this.parse(media.currentTime);
-                    this.volume=this.parse(media.volume);
-                    this.buffered=this.getBuffer();
-                },
-                timeupdate:function(){
-                    this.currentTime=this.parse(media.currentTime);
-                },
-                volumechange:function(){
-                    this.volume=this.parse(media.volume);
-                    //this.muted=media.muted;
-                },
-                progress:function(){
-                    this.buffered=this.getBuffer();
+                    this.isReady=true;
+                    this._muted=this.muted;
                 }
             });
 
-            if(!isNaN(this.media.duration)){
+            if(!isNaN(this.length)){
                 this.fire('loadedmetadata');
             }
         },
@@ -78,29 +60,22 @@
                 case 'loadedmetadata':
                     this.fire('ready',this.length);
                     break;
-                case 'timeupdate':
-                    this.fire('process',this.currentTime);
-                    break;
                 case 'volumechange':
-                    var muted=this.media.muted;
-                    if(muted!==this.muted){
-                        this.fire(muted?'mute':'unmute');
-                        this.muted=muted;
+                    if(this._muted!==this.muted){
+                        this.fire(this.muted?'mute':'unmute');
+                        this._muted=this.muted;
                     }
                     break;
             }
         },
-        getBuffer:function(){
-            var buffered=this.media.buffered,
+        getBuffer:function(type){
+            var buffered=this.media[type||'played'],
                 i=0,len=buffered.length,
                 ret=[];
             for(;i<len;i++){
-                ret.push([this.parse(buffered.start(i)),this.parse(buffered.end(i))]);
+                ret.push([buffered.start(i),buffered.end(i)]);
             }
             return ret;
-        },
-        parse:function(num){
-            return num*1||0;
         },
         on:function(evs,callback){
             if(typeof evs == 'object'){
@@ -113,8 +88,7 @@
                         this.events[ev]=[];
                         this.media.addEventListener(ev,this,false);
                     }
-                    this.events[ev].push(callback);
-                    this.special(ev);
+                    typeof callback=='function' && this.events[ev].push(callback) && this.special(ev);
                 }.bind(this));
             }
             return this;
@@ -134,12 +108,15 @@
             }.bind(this));
             return this;
         },
+        ready:function(callback){
+            return this.on('ready',callback);
+        },
         play:function(){
-            this.media.play();
+            this.playing=true;
             return this;
         },
         pause:function(){
-            this.media.pause();
+            this.playing=false;
             return this;
         },
         stop:function(){
@@ -149,48 +126,99 @@
             return this.go(this.length);
         },
         toggle:function(){
-            return this.playing?this.pause():this.play();
+            this.playing=!this.playing;
+            return this;
         },
         reset:function(){
             return this.go(0);
         },
         skip:function(offset){
-            return this.go(this.currentTime+offset);
+            this.currentTime+=(offset||1);
+            return this;
         },
         go:function(time){
             try{
-                this.media.currentTime=time;
+                this.currentTime=time;
             }catch(e){}
             return this;
         },
         mute:function(){
-            this.media.muted=true;
+            this.muted=true;
             return this;
         },
         unmute:function(){
-            this.media.muted=false;
+            this.muted=false;
+            return this;
+        },
+        muteToggle:function(){
+            this.muted=!this.muted;
             return this;
         },
         setVol:function(v){
             try{
-                this.media.volume=v;
+                this.volume=v;
             }catch(e){}
             return this;
         },
         volUp:function(){
-            return this.setVol(this.volume+.1);
+            this.volume+=.1;
+            return this;
         },
         volDown:function(){
-            return this.setVol(this.volume-.1);
+            this.volume-=.1;
+            return this;
         },
         load:function(url){
-            this.media.src=url;
+            this.src=url;
             return this;
         },
         canPlayType:function(mime){
             return this.media.canPlayType(mime);
         }
     }
+
+    
+    "paused currentTime duration muted volume ended playbackRate src seeking loop poster preload autoplay controls height width".split(" ").forEach(function(prop){
+        Object.defineProperty(struct.prototype,prop,{
+            get:function(){
+                return this.media[prop];
+            },
+            set:function(value){
+                this.media[prop]=value;
+            },
+            enumerable:true
+        });
+    }.bind(this));
+
+    Object.defineProperties(struct.prototype,{
+        length:{
+            get:function(){
+                return this.media.duration;
+            },
+            enumerable:true
+        },
+        playing:{
+            get:function(){
+                return !this.ended && !this.media.paused;
+            },
+            set:function(value){
+                this.media[!!value?'play':'pause']();
+            },
+            enumerable:true
+        },
+        buffered:{
+            get:function(){
+                return this.getBuffer();
+            },
+            enumerable:true
+        },
+        played:{
+            get:function(){
+                return this.getBuffer('played');
+            },
+            enumerable:true
+        }
+    });
 
     
     !function(){
@@ -248,5 +276,6 @@
         this.media=document.createElement(config.type||'video');
         this.updateConfig(config);
     }
+
     this.bindEvents();
 });
