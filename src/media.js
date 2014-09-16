@@ -94,7 +94,7 @@
             return this;
         },
         special:function(ev){
-            if(ev=='ready' && this.ready){
+            if(ev=='ready' && this.isReady){
                 this.events[ev].slice(-1)[0].call(this,this.media,this.length);
             }
         },
@@ -177,48 +177,54 @@
         }
     }
 
-    
-    "paused currentTime duration muted volume ended playbackRate src seeking loop poster preload autoplay controls height width".split(" ").forEach(function(prop){
-        Object.defineProperty(struct.prototype,prop,{
-            get:function(){
-                return this.media[prop];
-            },
-            set:function(value){
-                this.media[prop]=value;
-            },
-            enumerable:true
-        });
-    }.bind(this));
+    if(typeof [].forEach=='function'){
+        /* 特性检测避免低版本浏览器报错
+         * 通过检测数组是否存在 forEach 方法足够覆盖存在 Object.defineProperty 的情况 
+         */ 
 
-    Object.defineProperties(struct.prototype,{
-        length:{
-            get:function(){
-                return this.media.duration;
+        "paused currentTime duration muted volume ended playbackRate src seeking loop poster preload autoplay controls height width".split(" ").forEach(function(prop){
+            Object.defineProperty(struct.prototype,prop,{
+                get:function(){
+                    return this.media[prop];
+                },
+                set:function(value){
+                    this.media[prop]=value;
+                },
+                enumerable:true
+            });
+        }.bind(this));
+
+        Object.defineProperties(struct.prototype,{
+            length:{
+                get:function(){
+                    return this.media.duration;
+                },
+                enumerable:true
             },
-            enumerable:true
-        },
-        playing:{
-            get:function(){
-                return !this.ended && !this.media.paused;
+            playing:{
+                get:function(){
+                    return !this.ended && !this.media.paused;
+                },
+                set:function(value){
+                    this.media[!!value?'play':'pause']();
+                },
+                enumerable:true
             },
-            set:function(value){
-                this.media[!!value?'play':'pause']();
+            buffered:{
+                get:function(){
+                    return this.getBuffer();
+                },
+                enumerable:true
             },
-            enumerable:true
-        },
-        buffered:{
-            get:function(){
-                return this.getBuffer();
-            },
-            enumerable:true
-        },
-        played:{
-            get:function(){
-                return this.getBuffer('played');
-            },
-            enumerable:true
-        }
-    });
+            played:{
+                get:function(){
+                    return this.getBuffer('played');
+                },
+                enumerable:true
+            }
+        });
+
+    }
 
     
     !function(){
