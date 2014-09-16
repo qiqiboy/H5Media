@@ -69,7 +69,7 @@
             }
         },
         getBuffer:function(type){
-            var buffered=this.media[type||'played'],
+            var buffered=this.media[type||'buffered'],
                 i=0,len=buffered.length,
                 ret=[];
             for(;i<len;i++){
