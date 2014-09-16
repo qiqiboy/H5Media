@@ -43,7 +43,7 @@ media.finish();
 /* 反向切换播放状态 */
 media.toggle();
 
-/* 快进（推） */
+/* 快进（退） */
 media.skip(number);
 
 /* 跳转到指定时间 */
