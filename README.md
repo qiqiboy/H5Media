@@ -16,7 +16,7 @@ var media=new H5Media(document.getElementById('video')); //其二，获取对页
 H5Media.video //mp4 ogg webm flv
 H5Media.audio //mp3 wav m4a ogg aac webm
 
-/* 媒体准备就绪（可以获取到媒体长度等信息，及对应loadedmetadata事件） 
+/* 媒体准备就绪（可以获取到媒体长度等信息，即对应loadedmetadata事件） 
  * media.ready(callback);
  */
 media.ready(function(){
