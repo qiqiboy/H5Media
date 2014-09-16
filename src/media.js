@@ -196,13 +196,13 @@
         Object.defineProperties(struct.prototype,{
             length:{
                 get:function(){
-                    return this.media.duration;
+                    return this.duration;
                 },
                 enumerable:true
             },
             playing:{
                 get:function(){
-                    return !this.ended && !this.media.paused;
+                    return !this.ended && !this.paused;
                 },
                 set:function(value){
                     this.media[!!value?'play':'pause']();
