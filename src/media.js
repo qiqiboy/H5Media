@@ -18,7 +18,6 @@
     struct.prototype={
         constructor:struct,
         bindEvents:function(){
-            var media=this.media;
             this.events={};
             this.on({
                 'playing ended volumechange':null,
