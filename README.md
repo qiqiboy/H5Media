@@ -48,9 +48,11 @@ media.skip(number);
 
 /* 跳转到指定时间 */
 media.go(number);
+media.currentTime=number;
 
 /* 设置声音大小0-1 */
 media.setVol(number);
+media.volume=number;
 
 /* 调大声音 */
 media.volUp();
