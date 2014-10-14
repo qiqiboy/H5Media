@@ -176,9 +176,8 @@
         }
     }
 
-    if(typeof [].forEach=='function'){
+    if(typeof Object.defineProperties=='function'){
         /* 特性检测避免低版本浏览器报错
-         * 通过检测数组是否存在 forEach 方法足够覆盖存在 Object.defineProperty 的情况 
          */ 
 
         "paused currentTime duration muted volume ended playbackRate src seeking loop poster preload autoplay controls height width".split(" ").forEach(function(prop){
