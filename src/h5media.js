@@ -92,6 +92,23 @@
             }
             return this;
         },
+        off:function(evs,calback){
+            evs.split(/\s+/g).forEach(function(ev){
+                if(this.events[ev]){
+                    if(typeof callback=='function'){
+                        this.events.splice(this.events.indexOf(callback),1);
+                    }else{
+                        this.events[ev].length=0;
+                    }
+
+                    if(this.events[ev].length==0){
+                        delete this.events[ev];
+                        this.media.removeEventListener(ev,this,false);
+                    }
+                }
+            }.bind(this));
+            return this;
+        },
         special:function(ev){
             if(ev=='ready' && this.isReady){
                 this.events[ev].slice(-1)[0].call(this,this.media,this.length);
