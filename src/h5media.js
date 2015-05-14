@@ -286,9 +286,9 @@
 
     ROOT.H5Media=struct;
 
-})(window,function self(config){
-    if(!(this instanceof self)){
-        return new self(config);
+})(window,function(config){
+    if(!(this instanceof arguments.callee)){
+        return new arguments.callee(config);
     }
     config=config||{};
     if(1==config.nodeType){
