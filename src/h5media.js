@@ -20,7 +20,7 @@
         bindEvents:function(){
             this.events={};
             this.on({
-                'playing ended volumechange':null,
+                'ended volumechange':null,
                 loadedmetadata:function(){
                     this.isReady=true;
                     this._muted=this.muted;
@@ -45,14 +45,10 @@
         },
         handleEvent:function(ev){
             var type=ev.type.toLowerCase();
-            if(type!='play'){
-                this.fire(type);
-            }
+            
+            this.fire(type);
 
             switch(type){
-                case 'playing':
-                    this.fire('play');
-                    break;
                 case 'ended':
                     this.fire('end');
                     break;
