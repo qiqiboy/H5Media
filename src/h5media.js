@@ -82,7 +82,7 @@
                 evs.split(/\s+/g).forEach(function(ev){
                     if(!self.events[ev]){
                         self.events[ev]=[];
-                        self.media.addEventListener(ev,this,false);
+                        self.media.addEventListener(ev,self,false);
                     }
                     typeof callback=='function' && self.events[ev].push(callback) && self.special(ev);
                 });
@@ -90,17 +90,17 @@
             return this;
         },
         off:function(evs,calback){
-            var self=this;
+            var self=this,events;
             evs.split(/\s+/g).forEach(function(ev){
-                if(self.events[ev]){
+                if(events=this.events[ev]){
                     if(typeof callback=='function'){
-                        self.events.splice(this.events.indexOf(callback),1);
+                        events.splice(events.indexOf(callback),1);
                     }else{
-                        self.events[ev].length=0;
+                        events.length=0;
                     }
 
-                    if(self.events[ev].length==0){
-                        delete this.events[ev];
+                    if(events.length==0){
+                        delete self.events[ev];
                         self.media.removeEventListener(ev,self,false);
                     }
                 }
