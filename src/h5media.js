@@ -32,9 +32,18 @@
             }
         },
         updateConfig:function(attrs){
-            var attr,node=this.media;
+            var attr,type,srcs,node=this.media;
             for(attr in attrs){
                 if(attrs.hasOwnProperty(attr)){
+                    if(attr=='src' && typeof (srcs=attrs[attr])=='object'){
+                        for(type in srcs){
+                            if(srcs.hasOwnProperty(type) && struct[this.type][type]){
+                                this.updateConfig({src:srcs[type]});
+                                break;
+                            }
+                        }
+                        continue;
+                    }
                     if(attr in node){
                         node[attr]=attrs[attr];
                     }else{
@@ -290,7 +299,7 @@
     if(1==config.nodeType){
         this.media=config;
     }else{
-        this.media=document.createElement(config.type||'video');
+        this.media=document.createElement(this.type=(config.type||'video'));
         this.updateConfig(config);
     }
 
