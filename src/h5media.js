@@ -5,15 +5,6 @@
 ;
 (function(ROOT,struct,undefined){
     "use strict";
-    
-    if(typeof Function.prototype.bind!='function'){
-        Function.prototype.bind=function(obj){
-            var self=this;
-            return function(){
-                return self.apply(obj,arguments);
-            }
-        }
-    }
 
     struct.prototype={
         constructor:struct,
@@ -82,36 +73,38 @@
             return ret;
         },
         on:function(evs,callback){
+            var self=this;
             if(typeof evs == 'object'){
                 Object.keys(evs).forEach(function(ev){
-                    this.on(ev,evs[ev]);
-                }.bind(this));
+                    self.on(ev,evs[ev]);
+                });
             }else{
                 evs.split(/\s+/g).forEach(function(ev){
-                    if(!this.events[ev]){
-                        this.events[ev]=[];
-                        this.media.addEventListener(ev,this,false);
+                    if(!self.events[ev]){
+                        self.events[ev]=[];
+                        self.media.addEventListener(ev,this,false);
                     }
-                    typeof callback=='function' && this.events[ev].push(callback) && this.special(ev);
-                }.bind(this));
+                    typeof callback=='function' && self.events[ev].push(callback) && self.special(ev);
+                });
             }
             return this;
         },
         off:function(evs,calback){
+            var self=this;
             evs.split(/\s+/g).forEach(function(ev){
-                if(this.events[ev]){
+                if(self.events[ev]){
                     if(typeof callback=='function'){
-                        this.events.splice(this.events.indexOf(callback),1);
+                        self.events.splice(this.events.indexOf(callback),1);
                     }else{
-                        this.events[ev].length=0;
+                        self.events[ev].length=0;
                     }
 
-                    if(this.events[ev].length==0){
+                    if(self.events[ev].length==0){
                         delete this.events[ev];
-                        this.media.removeEventListener(ev,this,false);
+                        self.media.removeEventListener(ev,self,false);
                     }
                 }
-            }.bind(this));
+            });
             return this;
         },
         special:function(ev){
@@ -120,13 +113,14 @@
             }
         },
         fire:function(ev){
-            var args=[].slice.call(arguments,1);
+            var args=[].slice.call(arguments,1),
+                self=this;
             args.unshift(this.media);
             (this.events[ev]||[]).forEach(function(callback){
                 if(typeof callback == 'function'){
-                    callback.apply(this,args);
+                    callback.apply(self,args);
                 }
-            }.bind(this));
+            });
             return this;
         },
         ready:function(callback){
@@ -212,7 +206,7 @@
                 },
                 enumerable:true
             });
-        }.bind(this));
+        });
 
         Object.defineProperties(struct.prototype,{
             length:{
