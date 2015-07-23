@@ -283,7 +283,11 @@
         tv=null;
     }();
 
-    ROOT.H5Media=struct;
+    if(typeof define=='function' && define.amd){
+        define('H5Media',function(){
+            return struct;
+        });
+    }else ROOT.H5Media=struct;
 
 })(window,function(config){
     if(!(this instanceof arguments.callee)){
